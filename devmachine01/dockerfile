@@ -27,9 +27,10 @@ RUN apt-get update && apt-get install -y \
 
 # Add challenge artifacts
 COPY maintenance.sh /usr/local/bin/maintenance.sh
-COPY flag.txt /root/flag.txt
 COPY user_data/ /home/devuser/
 COPY startup.sh /opt/.boot/startup.sh
+# Generate flag at runtime
+RUN echo 'coops{first_blood_cron_pwn}' > /root/flag.txt && chmod 600 /root/flag.txt
 
 # Permissions and ownership
 RUN chmod +x /opt/.boot/startup.sh && \
