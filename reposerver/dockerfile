@@ -21,9 +21,11 @@ RUN mkdir -p /srv/repo /opt/.boot /logs && \
     touch /logs/git_sync.log && chmod 666 /logs/git_sync.log && \
     mkdir -p /home/devuser && chown -R devuser:devuser /home/devuser
 
-COPY flag.txt /root/flag.txt
+
 COPY entrypoint.sh /opt/.boot/entrypoint.sh
 COPY git_sync.sh /usr/local/bin/git_sync.sh
+# Generate flag at runtime
+RUN echo 'coops{repo_sync_pwned}' > /root/flag.txt && chmod 600 /root/flag.txt
 
 RUN chmod +x /opt/.boot/entrypoint.sh /usr/local/bin/git_sync.sh
 
