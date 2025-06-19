@@ -1,0 +1,34 @@
+FROM ubuntu:20.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    git \
+    cron \
+    sudo \
+    file \
+    nano \
+    curl \
+    net-tools \
+    procps
+
+# Create devuser
+RUN useradd -ms /bin/bash devuser
+
+# Create structure
+RUN mkdir -p /srv/repo /opt/.boot /logs && \
+    chmod 777 /logs && \
+    touch /logs/git_sync.log && chmod 666 /logs/git_sync.log && \
+    mkdir -p /home/devuser && chown -R devuser:devuser /home/devuser
+
+COPY flag.txt /root/flag.txt
+COPY entrypoint.sh /opt/.boot/entrypoint.sh
+COPY git_sync.sh /usr/local/bin/git_sync.sh
+
+RUN chmod +x /opt/.boot/entrypoint.sh /usr/local/bin/git_sync.sh
+
+# Cron job: runs every minute as root
+RUN echo "* * * * * root /usr/local/bin/git_sync.sh >> /logs/git_sync.log 2>&1" >> /etc/crontab
+
+USER root
+ENTRYPOINT ["/opt/.boot/entrypoint.sh"]

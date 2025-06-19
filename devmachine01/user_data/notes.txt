@@ -1,0 +1,4 @@
+- JenkinsBox -> runs ci-task.py daily as root
+- QABox had a shared SSH key in /etc/skel??
+- RepoServer syncs my repo every push. I bet they’re still running it with root. Idiots.
+

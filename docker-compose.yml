@@ -1,0 +1,27 @@
+services:
+  devmachine01:
+    build:
+      context: ./devmachine01
+    container_name: devmachine01
+    volumes:
+      - shared_git:/shared
+    networks:
+      - infranet
+    tty: true
+
+  reposerver:
+    build:
+      context: ./reposerver
+    container_name: reposerver
+    volumes:
+      - shared_git:/shared
+    networks:
+      - infranet
+    tty: true
+
+networks:
+  infranet:
+    driver: bridge
+
+volumes:
+  shared_git:
