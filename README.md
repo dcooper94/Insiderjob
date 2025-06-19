@@ -23,7 +23,7 @@ This CTF simulates a rogue developer exploiting internal infrastructure failures
 Clone the project and start all machines:
 
 ```bash
-git clone 
+git clone https://github.com/dcooper94/Insiderjob
 cd insiderjob
 docker compose up --build -d
 ```
