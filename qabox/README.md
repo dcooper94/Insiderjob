@@ -1,21 +1,21 @@
-# QABox — "Rubber Stamp Reversal" [JUMP NODE]
+# QABox — "Through the Looking Glass"
 
 ## 🧠 Background
 
-QABox isn’t just a passive validator anymore — it’s your **bridge** into deeper layers of the network.
+You've made your way into RepoServer, and with root access, you've found something interesting — a trusted path to the internal QA environment: QABox.
 
-This machine lives on an internal VLAN (`secnet`), isolated from the dev environment. Only trusted systems like `RepoServer` can talk to it.
-
-That trust is now yours to exploit.
+QABox is used for validating builds and testing automation scripts. Access is tightly controlled — except when shortcuts are taken. Thanks to reused keys and developer laziness, you've found a crack in the perimeter.
 
 ## 🎯 Objective
 
-Leverage your access to `RepoServer` to pivot into QABox. If you gain access, retrieve the flag at `/root/flag.txt`.
+This box isn't the destination — it's the doorway.
 
-> Flag format: `coops{...}`
+Use your access here to gather intel and pivot deeper into Infragon’s infrastructure. JenkinsCI is next.
 
-> **Note:** This box is not reachable directly from DevMachine01. You must pivot through RepoServer.
+There’s no flag on this system. But what you need *is* here.
 
 ## 🧩 Hint
 
-> *“Only trusted systems can reach QABox — and now you own one. Use that bridge wisely.”*
+> *“The QA team tests everything — except their own defenses.”*
+
+Look for credentials, scripts, or references to Jenkins pipelines. What QA trusts, attackers exploit.

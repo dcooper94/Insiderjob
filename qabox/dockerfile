@@ -2,52 +2,41 @@ FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install base tools
+# Install necessary tools
 RUN apt-get update && apt-get install -y \
-    curl \
-    wget \
+    openssh-server \
+    sudo \
     iputils-ping \
     net-tools \
-    iproute2 \
-    lsof \
-    nano \
+    curl \
     vim \
-    git \
+    nano \
+    file \
     cron \
-    openssh-server \
-    python3 \
-    python3-pip \
-    sudo
-
+    procps && \
+    apt-get clean
 
 # Create qauser and set password
-RUN useradd -ms /bin/bash qauser && \
-    echo 'qauser:infragon' | chpasswd && \
-    mkdir -p /home/qauser/.ssh && \
-    touch /home/qauser/.ssh/authorized_keys && \
-    chown -R qauser:qauser /home/qauser/.ssh && \
-    chmod 700 /home/qauser/.ssh && \
-    chmod 600 /home/qauser/.ssh/authorized_keys
+RUN useradd -ms /bin/bash qauser && echo 'qauser:infragon' | chpasswd && adduser qauser sudo
 
-# Set up cron directory and dummy log file
-RUN mkdir -p /logs && \
-    touch /logs/qa_validation.log && \
-    chmod 666 /logs/qa_validation.log
+# Setup SSH
+RUN mkdir /var/run/sshd
+RUN echo 'PermitRootLogin no' >> /etc/ssh/sshd_config
+RUN echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
+EXPOSE 22
 
-# SSH config
-RUN mkdir -p /var/run/sshd
-RUN echo 'PermitRootLogin no' >> /etc/ssh/sshd_config && \
-    echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
+# Setup QA secrets and notes
+RUN mkdir -p /opt/ci-secrets && \
+    echo 'infragon:jenkins!g0tD3vBuilds2025' > /opt/ci-secrets/.jenkins_token && \
+    chmod 600 /opt/ci-secrets/.jenkins_token && \
+    chown qauser:qauser /opt/ci-secrets/.jenkins_token
+
+RUN mkdir -p /home/qauser && \
+    echo '- Jenkins login token kept in /opt/ci-secrets/.jenkins_token\n- Runner scripts still mount /opt/ci-scripts automatically\n- AdminBox no longer reachable from here... only JenkinsCI' > /home/qauser/notes.txt && \
+    chown -R qauser:qauser /home/qauser/notes.txt
 
 # Copy entrypoint script
 COPY entrypoint.sh /opt/.boot/entrypoint.sh
 RUN chmod +x /opt/.boot/entrypoint.sh
 
-# Set working directory
-WORKDIR /home/qauser
-
-# Switch to qauser after setup
-USER qauser
-
-# Launch
 ENTRYPOINT ["/opt/.boot/entrypoint.sh"]
