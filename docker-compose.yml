@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   devmachine01:
     build:
@@ -8,6 +10,7 @@ services:
     networks:
       - infranet
     tty: true
+    user: devuser
 
   reposerver:
     build:
@@ -17,11 +20,23 @@ services:
       - shared_git:/shared
     networks:
       - infranet
+      - secnet
     tty: true
+    user: root
+
+  qabox:
+    build:
+      context: ./qabox
+    container_name: qabox
+    networks:
+      - secnet
+    tty: true
+
+volumes:
+  shared_git:
 
 networks:
   infranet:
     driver: bridge
-
-volumes:
-  shared_git:
+  secnet:
+    driver: bridge

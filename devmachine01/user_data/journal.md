@@ -1,9 +1,9 @@
 # Devuser Journal
 
 - Management ignored me again today. The cron job I flagged last month? Still runs as root. Still executing the same janky script.
-- QA team finally set the runner to auto-execute `scripts/build.py` again.
-Such a joke — zero security. Anyone with write access to Git could wreck that box.
-- JenkinsBox is still running that unpatched Python runner. But sure, keep telling me it's not a risk.
-- I've got a plan. Just need access. Just one slip-up from them and I'm in.
+- RepoServer blindly pulls from the shared Git every minute. I've tested it — they don’t even validate what's being synced.
+- QA team re-enabled their auto-runner for `scripts/build.py`. One malicious commit and that box is toast.
+- JenkinsBox still runs `ci-task.py` as root. But sure, keep telling me there's "no risk."
+- I've got a plan. One slip-up from them and I’ll be inside every machine they own.
 
 --E
