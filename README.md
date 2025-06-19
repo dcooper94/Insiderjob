@@ -1,3 +1,5 @@
+>[!Warning]work in progress
+>The CTF is still being worked on. I have yet to finish the other machines or add the frontend http server to submit the flags to. 
 # InsiderJob CTF — "Infragon Compromised"
 
 ## 🎯 Objective
