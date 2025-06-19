@@ -1,46 +1,76 @@
-> [!WARNING] 
-> work in progress
->The CTF is still being worked on. I have yet to finish the other machines or add the frontend http server to submit the flags to. 
-# InsiderJob CTF — "Infragon Compromised"
+> [!WARNING]  
+> 🚧 Work in Progress  
+> The CTF is still under development. Machines 4 and 5 are coming soon, along with the final web-based flag submission interface.
+
+# InsiderJob CTF — *"Infragon Compromised"*
 
 ## 🎯 Objective
 
-This CTF simulates a rogue developer exploiting internal infrastructure failures across 5 interconnected Linux systems using Docker. Your mission: move laterally, escalate privileges, and capture root flags on every machine.
+You are **E.**, a disgruntled developer inside **Infragon Systems**. After repeated security concerns were dismissed by upper management, you've decided to turn their negligence against them.
 
-> Flag format: `coops{...}`
+This Capture The Flag (CTF) simulates your journey through 5 interconnected Linux systems. Each container represents a real machine in the network. Your mission: move laterally, escalate privileges, and capture the root flags.
+
+> **Flag format**: `coops{...}`
 
 ---
 
 ## 🖥️ Machines
 
-1. **DevMachine01** — Developer sandbox (initial foothold)
-2. **RepoServer** — Internal Git sync server
-3. **QABox** — [Coming soon]
-4. **JenkinsCI**  — [Coming soon]
-5. **AdminBox**  — [Coming soon]
+| Machine        | Role                          | Status        |
+|----------------|-------------------------------|---------------|
+| `DevMachine01` | Developer sandbox              | ✅ Complete   |
+| `RepoServer`   | Internal Git sync server       | ✅ Complete   |
+| `QABox`        | QA runner node (jump box)      | ✅ Complete   |
+| `JenkinsCI`    | CI pipeline system             | 🚧 Coming Soon |
+| `AdminBox`     | Core infrastructure admin node | 🚧 Coming Soon |
+
+Each machine is exploitable from the previous one — follow the narrative and use clues to move forward.
 
 ---
 
-## 🚀 Setup Instructions
+## Setup Instructions
 
-Clone the project and start all machines:
-
-```bash
-git clone https://github.com/dcooper94/Insiderjob
-cd insiderjob
-docker compose up --build -d
-```
-Interacting with the containers 
+1. **Clone the Repository**
 
 ```bash
-docker exec -u devuser -it <machine_name> bash
+git clone https://github.com/dcooper94/InsiderJob
+cd InsiderJob
 ```
-Good luck. You're the insider now.
 
->[!NOTE]
-> ## 🔄 Resetting the Environment
->If you're having issues or want to restart from a clean state:
+   Build & Launch the Environment
+
+```bash
+docker compose build
+docker compose up -d
+```
+   Interact with Machines
+
+For machines with restricted shell access (like DevMachine01), use:
+
+```bash
+docker exec -u devuser -it devmachine01 bash
+```
+  
+🔄 Resetting the Environment
+
+To clean and rebuild everything:
 
 ```bash
 ./reset.sh
 ```
+
+This script removes Docker volumes and containers and resets persistent state (like Git repos or logs).
+
+## Notes
+
+    No external internet access is required.
+
+    Flags are generated at runtime inside each container and are not stored in the Git repository.
+
+    Tools like ping, ip, netstat, cron, git, ssh, and python3 are installed where relevant.
+
+    A Flask-based logger and web front-end for flag submission is planned for final release.
+
+Good luck.
+You've warned them long enough.
+Now it's time they listened — the hard way.
