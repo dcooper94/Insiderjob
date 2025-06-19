@@ -34,7 +34,7 @@ docker exec -u devuser -it <machine_name> bash
 ```
 Good luck. You're the insider now.
 
->![NOTE]
+>[!NOTE]
 > ## 🔄 Resetting the Environment
 >If you're having issues or want to restart from a clean state:
 
