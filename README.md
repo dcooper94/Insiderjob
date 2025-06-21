@@ -65,8 +65,7 @@ This script removes Docker volumes and containers and resets persistent state (l
 
     No external internet access is required.
 
-    Flags are generated at runtime inside each container and are not stored in the Git repository.
-
+    Flags are generated at runtime inside each container.
     Tools like ping, ip, netstat, cron, git, ssh, and python3 are installed where relevant.
 
     A Flask-based logger and web front-end for flag submission is planned for final release.
