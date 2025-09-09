@@ -10,7 +10,6 @@ services:
     networks:
       - infranet
     tty: true
-    user: devuser
 
   reposerver:
     build:
